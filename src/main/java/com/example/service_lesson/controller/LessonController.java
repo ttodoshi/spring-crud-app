@@ -58,7 +58,7 @@ public class LessonController {
     @Operation(summary = "Create new lesson", tags = "lesson")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Theme created",
                     content = {
                             @Content(

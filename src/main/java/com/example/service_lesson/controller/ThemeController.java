@@ -58,7 +58,7 @@ public class ThemeController {
     @Operation(summary = "Create new theme", tags = "theme")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Theme created",
                     content = {
                             @Content(
