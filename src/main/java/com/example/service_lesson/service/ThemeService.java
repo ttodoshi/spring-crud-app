@@ -26,6 +26,7 @@ public class ThemeService {
         return themeRepository.findById(id).orElseThrow();
     }
 
+    // Аннотация для проведении транзакции в БД после выполнения метода
     @Transactional
     public void addNewThemes(List<Theme> themes) {
         themeRepository.saveAll(themes);

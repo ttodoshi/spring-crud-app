@@ -26,6 +26,6 @@ public class Theme {
     @ManyToOne(optional = false)
     @JsonBackReference
     @JoinColumn(nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private Lesson lesson;
 }
