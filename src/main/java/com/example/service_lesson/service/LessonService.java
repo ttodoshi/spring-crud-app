@@ -25,9 +25,16 @@ public class LessonService {
         return lessonRepository.findById(id).orElseThrow();
     }
 
+    // Аннотация для проведении транзакции в БД после выполнения метода
     @Transactional
     public void addNewLessons(List<Lesson> lessons) {
         lessonRepository.saveAll(lessons);
+//        List<Lesson> savedLessons = lessonRepository.saveAll(lessons);
+//        savedLessons.forEach(lesson -> {
+//            if (lesson.getThemes() != null) {
+//
+//            }
+//        });
     }
 
     public void deleteLesson(Long id) {

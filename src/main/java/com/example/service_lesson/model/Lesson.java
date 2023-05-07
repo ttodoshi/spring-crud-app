@@ -23,9 +23,8 @@ public class Lesson {
     private Long id;
     @Column(nullable = false)
     private String title;
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public List<Theme> themes;
     @Column(nullable = false)
     private Long courseId;

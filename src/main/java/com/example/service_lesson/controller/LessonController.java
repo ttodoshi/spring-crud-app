@@ -28,7 +28,7 @@ public class LessonController {
     }
 
     @PostMapping
-    public void addNewLesson(@RequestBody List<Lesson> lessons) {
+    public void addNewLessons(@RequestBody List<Lesson> lessons) {
         lessonService.addNewLessons(lessons);
     }
 
