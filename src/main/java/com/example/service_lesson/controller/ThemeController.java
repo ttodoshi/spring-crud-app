@@ -1,8 +1,11 @@
 package com.example.service_lesson.controller;
 
+import com.example.service_lesson.dto.ThemeDto;
 import com.example.service_lesson.model.Theme;
 import com.example.service_lesson.service.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,27 +21,29 @@ public class ThemeController {
     }
 
     @GetMapping
-    public List<Theme> getThemes() {
-        return themeService.getThemes();
+    public ResponseEntity<List<ThemeDto>> getThemes() {
+        return ResponseEntity.ok(themeService.getThemes());
     }
 
     @GetMapping(path = "{themeId}")
-    public Theme getTheme (@PathVariable("themeId") Long id) {
-        return themeService.getThemeById(id);
+    public ResponseEntity<ThemeDto> getTheme(@PathVariable("themeId") Long id) {
+        return ResponseEntity.ok(themeService.getThemeById(id));
     }
 
     @PostMapping
-    public void addNewThemes(@RequestBody List<Theme> themes) {
-        themeService.addNewThemes(themes);
+    public ResponseEntity<List<ThemeDto>> addNewThemes(@RequestBody List<Theme> themes) {
+        return new ResponseEntity<>(themeService.addNewThemes(themes), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{themeId}")
-    public void deleteTheme(@PathVariable("themeId") Long id) {
+    public ResponseEntity<String> deleteTheme(@PathVariable("themeId") Long id) {
         themeService.deleteTheme(id);
+        return ResponseEntity.ok("Тема удалена");
     }
 
     @PutMapping(path = "{themeId}")
-    public void updateTheme(@PathVariable("themeId") Long id, @RequestBody Theme theme) {
-        themeService.updateTheme(id, theme);
+    public ResponseEntity<ThemeDto> updateTheme(@PathVariable("themeId") Long id,
+                                                @RequestBody Theme theme) {
+        return ResponseEntity.ok(themeService.updateTheme(id, theme));
     }
 }

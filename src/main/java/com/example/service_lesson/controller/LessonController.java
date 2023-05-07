@@ -1,8 +1,11 @@
 package com.example.service_lesson.controller;
 
+import com.example.service_lesson.dto.LessonDto;
 import com.example.service_lesson.model.Lesson;
 import com.example.service_lesson.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,28 +21,29 @@ public class LessonController {
     }
 
     @GetMapping
-    public List<Lesson> getLessons() {
-        return lessonService.getLessons();
+    public ResponseEntity<List<LessonDto>> getLessons() {
+        return ResponseEntity.ok(lessonService.getLessons());
     }
 
     @GetMapping(path = "{lessonId}")
-    public Lesson getLesson(@PathVariable("lessonId") Long id) {
-        return lessonService.getLessonById(id);
+    public ResponseEntity<LessonDto> getLesson(@PathVariable("lessonId") Long id) {
+        return ResponseEntity.ok(lessonService.getLessonById(id));
     }
 
     @PostMapping
-    public void addNewLessons(@RequestBody List<Lesson> lessons) {
-        lessonService.addNewLessons(lessons);
+    public ResponseEntity<List<LessonDto>> addNewLessons(@RequestBody List<Lesson> lessons) {
+        return new ResponseEntity<>(lessonService.addNewLessons(lessons), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{lessonId}")
-    public void deleteLesson(@PathVariable("lessonId") Long id) {
+    public ResponseEntity<String> deleteLesson(@PathVariable("lessonId") Long id) {
         lessonService.deleteLesson(id);
+        return ResponseEntity.ok("Занятие удалено");
     }
 
     @PutMapping(path = "{lessonId}")
-    public void updateLesson(@PathVariable("lessonId") Long id, @RequestBody Lesson lesson) {
-        lessonService.updateLesson(id, lesson);
+    public ResponseEntity<LessonDto> updateLesson(@PathVariable("lessonId") Long id,
+                                                  @RequestBody Lesson lesson) {
+        return ResponseEntity.ok(lessonService.updateLesson(id, lesson));
     }
-
 }

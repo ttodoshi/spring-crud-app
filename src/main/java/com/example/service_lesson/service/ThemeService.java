@@ -1,35 +1,46 @@
 package com.example.service_lesson.service;
 
+import com.example.service_lesson.dto.ThemeDto;
 import com.example.service_lesson.model.Theme;
 import com.example.service_lesson.repository.ThemeRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
+    private final ModelMapper mapper;
 
     @Autowired
-    public ThemeService(ThemeRepository themeRepository) {
+    public ThemeService(ThemeRepository themeRepository, ModelMapper mapper) {
         this.themeRepository = themeRepository;
+        this.mapper = mapper;
     }
 
-    public List<Theme> getThemes() {
-        return themeRepository.findAll();
+    public List<ThemeDto> getThemes() {
+        return themeRepository.findAll()
+                .stream()
+                .map(t -> mapper.map(t, ThemeDto.class))
+                .collect(Collectors.toList());
     }
 
-    public Theme getThemeById(Long id) {
-        return themeRepository.findById(id).orElseThrow();
+    public ThemeDto getThemeById(Long id) {
+        return mapper.map(themeRepository.findById(id).orElseThrow(), ThemeDto.class);
     }
 
     // Аннотация для проведении транзакции в БД после выполнения метода
     @Transactional
-    public void addNewThemes(List<Theme> themes) {
-        themeRepository.saveAll(themes);
+    public List<ThemeDto> addNewThemes(List<Theme> themes) {
+        return themeRepository.saveAll(themes)
+                .stream()
+                .map(t -> mapper.map(t, ThemeDto.class))
+                .collect(Collectors.toList());
     }
 
     public void deleteTheme(Long id) {
@@ -39,12 +50,13 @@ public class ThemeService {
         themeRepository.deleteById(id);
     }
 
-    public void updateTheme(Long id, Theme theme) {
-        Theme updatedTheme = themeRepository.findById(id).orElseThrow(() -> new IllegalStateException("Theme with id " + id + " does not exist"));
+    public ThemeDto updateTheme(Long id, Theme theme) {
+        Theme updatedTheme = themeRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(
+                        "Theme with id " + id + " does not exist"));
         if (theme.getTitle() != null && theme.getTitle().length() > 0)
             updatedTheme.setTitle(theme.getTitle());
         updatedTheme.setLesson(theme.getLesson());
-        themeRepository.save(updatedTheme);
+        return mapper.map(themeRepository.save(updatedTheme), ThemeDto.class);
     }
-
 }
