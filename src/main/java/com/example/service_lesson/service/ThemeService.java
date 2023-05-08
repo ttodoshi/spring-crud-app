@@ -3,8 +3,8 @@ package com.example.service_lesson.service;
 import com.example.service_lesson.dto.ThemeDto;
 import com.example.service_lesson.model.Theme;
 import com.example.service_lesson.repository.ThemeRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,16 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ThemeService {
 
     private final ThemeRepository themeRepository;
     private final ModelMapper mapper;
-
-    @Autowired
-    public ThemeService(ThemeRepository themeRepository, ModelMapper mapper) {
-        this.themeRepository = themeRepository;
-        this.mapper = mapper;
-    }
 
     public List<ThemeDto> getThemes() {
         return themeRepository.findAll()

@@ -3,8 +3,8 @@ package com.example.service_lesson.service;
 import com.example.service_lesson.dto.LessonDto;
 import com.example.service_lesson.model.Lesson;
 import com.example.service_lesson.repository.LessonRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,15 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class LessonService {
     private final LessonRepository lessonRepository;
     private final ModelMapper mapper;
-
-    @Autowired
-    public LessonService(LessonRepository lessonRepository, ModelMapper mapper) {
-        this.lessonRepository = lessonRepository;
-        this.mapper = mapper;
-    }
 
     public List<LessonDto> getLessons() {
         return lessonRepository.findAll()
