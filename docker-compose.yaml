@@ -1,18 +1,51 @@
 version: '3.5'
 
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - lesson_service
+      - theme_service
+
+  theme_service:
+    build: ./theme-service
+    container_name: theme_service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    links:
+      - db:db
+  lesson_service:
+    build: ./lesson-service
+    container_name: lesson_service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    links:
+      - db:db
+
   db:
-    container_name: postgres
+    container_name: db
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: service_example
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=service_example
     ports:
       - "5432:5432"
-    networks:
-      - postgres-network
 
   pgadmin:
     container_name: pgadmin4
@@ -22,12 +55,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "5050:80"
+      - "5050:5050"
     depends_on:
       - db
-    networks:
-      - postgres-network
-
-networks: 
-  postgres-network:
-    driver: bridge
