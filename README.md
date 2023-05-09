@@ -3,4 +3,5 @@
 #### API docs
 
 http://**host*/lessons/swagger-ui/index.html
+
 http://**host*/themes/swagger-ui/index.html
