@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class ThemeController {
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     @Operation(summary = "Create new theme", tags = "theme")
     @ApiResponses(value = {
             @ApiResponse(
@@ -66,6 +68,7 @@ public class ThemeController {
     }
 
     @DeleteMapping(path = "{themeId}")
+    @Secured("ROLE_ADMIN")
     @Operation(summary = "Delete theme by id", tags = "theme")
     @ApiResponses(value = {
             @ApiResponse(
@@ -82,6 +85,7 @@ public class ThemeController {
     }
 
     @PutMapping(path = "{themeId}")
+    @Secured("ROLE_ADMIN")
     @Operation(summary = "Update theme by id", tags = "theme")
     @ApiResponses(value = {
             @ApiResponse(
