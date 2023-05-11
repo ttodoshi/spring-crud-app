@@ -10,6 +10,7 @@ services:
     depends_on:
       - lesson_service
       - theme_service
+      - auth_service
 
   theme_service:
     build: ./theme-service
@@ -26,6 +27,18 @@ services:
   lesson_service:
     build: ./lesson-service
     container_name: lesson_service
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+    links:
+      - db:db
+  auth_service:
+    build: ./authorization-service
+    container_name: auth_service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
       - SPRING_DATASOURCE_USERNAME=root

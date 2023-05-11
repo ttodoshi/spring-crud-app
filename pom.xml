@@ -11,6 +11,7 @@
 	<modules>
 		<module>lesson-service</module>
 		<module>theme-service</module>
+		<module>authorization-service</module>
 	</modules>
 	<properties>
 		<java.version>11</java.version>
