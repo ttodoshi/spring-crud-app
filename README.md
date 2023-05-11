@@ -2,7 +2,7 @@
 
 #### API docs
 
-http://**host*/api/auth/
+http://**host*/auth/swagger-ui/index.html
 
 http://**host*/lessons/swagger-ui/index.html
 
