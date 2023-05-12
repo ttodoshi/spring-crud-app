@@ -12,51 +12,14 @@ services:
       - theme_service
       - auth_service
 
-  theme_service:
-    build: ./theme-service
-    container_name: theme_service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      - db
-    links:
-      - db:db
-  lesson_service:
-    build: ./lesson-service
-    container_name: lesson_service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      - db
-    links:
-      - db:db
-  auth_service:
-    build: ./authorization-service
-    container_name: auth_service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/service_example
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    depends_on:
-      - db
-    links:
-      - db:db
-
   db:
     container_name: db
     image: postgres:latest
     restart: always
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=service_example
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: service_example
     ports:
       - "5432:5432"
 
@@ -71,3 +34,40 @@ services:
       - "5050:5050"
     depends_on:
       - db
+
+  theme_service:
+    build: ./theme-service
+    container_name: theme_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/service_example
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    links:
+      - db:db
+  lesson_service:
+    build: ./lesson-service
+    container_name: lesson_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/service_example
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    links:
+      - db:db
+  auth_service:
+    build: ./authorization-service
+    container_name: auth_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/service_example
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    links:
+      - db:db
